@@ -3,8 +3,8 @@ const URL = require('../Models/url');
 
 exports.handleGenerateNewShortUrl = async (req,res)=>{
     if(!req.body.url) {
-        res.status(400).json({
-            message  : "URL is required"
+        res.render('home',{
+            errorMsg : "URL is required"
         })
     }
 
@@ -12,7 +12,7 @@ exports.handleGenerateNewShortUrl = async (req,res)=>{
 
     if(response1) {
         return res.render('home',{
-            shortURL : `https://url-shortener-uvqp.onrender.com/api/url/${response1.shortId}`
+            shortURL : `https://url-shortener-uvqp.onrender.com/url/${response1.shortId}`
         })
     }
 
@@ -20,11 +20,13 @@ exports.handleGenerateNewShortUrl = async (req,res)=>{
         const shortId = shortid()
         const response = await URL.create({
             shortId: shortId,
-            redirectUrl : req.body.url
+            redirectUrl : req.body.url,
+            visitHistory : [],
+            createdBy : req.user._id,
         })
     
         return res.render('home',{
-            shortURL : `https://url-shortener-uvqp.onrender.com/api/url/${shortId}`
+            shortURL : `https://url-shortener-uvqp.onrender.com/url/${shortId}`
         })
     }
 
@@ -43,7 +45,6 @@ exports.handleRedirect = async (req,res)=>{
         }
       }
     );
-
     res.redirect(response.redirectUrl);
 
 }
@@ -53,7 +54,7 @@ exports.handleAnalytics  = async (req,res)=>{
     try {
         // const shortId = req.params.shortId;
         const response = await URL.find({});
-        console.log(response)
+        // console.log(response)
         res.render('home',{
             allUrls : response
         })

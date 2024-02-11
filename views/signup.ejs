@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup page</title>
+</head>
+<body>
+    <h1>Sign up</h1>
+    <% if (locals.errorMsg) { %>
+        <h2 style="color: red;"><%= errorMsg %></h2>
+<% } %>
+    <form method="post" action="/user/signup">
+        <label for="name">Full name</label>
+    <input type="name" name="name" id="name">
+    
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email">
+   
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+
+    <button type="submit">Signup</button>
+    </form>
+
+    <div style="margin-top: 10px;  ;"> <a href="/signin">Login</a></div>
+</body>
+</html>
