@@ -2,8 +2,8 @@ const shortid = require("shortid");
 const URL = require('../Models/url');
 
 exports.handleGenerateNewShortUrl = async (req,res)=>{
-    if(!req.body.url) {
-        res.render('home',{
+    if(!req.body.url) { 
+       return res.render('home',{
             errorMsg : "URL is required"
         })
     }
