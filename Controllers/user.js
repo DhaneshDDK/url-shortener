@@ -7,8 +7,16 @@ exports.handleUserSignup = async (req,res)=>{
         const {name,email,password } = req.body;
         if(!email || !password || !name)  res.render('signup', { errorMsg : "Please fill all fields"});
         else{
+            const user = await USER.findOne({email: email})
+            if(user) {
+               return  res.render('signup',{
+                    errorMsg : "User already exists"
+                })
+            }
+            else{
             const response = await USER.create({name:name,email:email,password:password});
             return res.redirect('/')
+           }
        }
     } catch (error) {
         res.json({
@@ -26,7 +34,7 @@ exports.handleUserSignin = async (req,res)=>{
         if(!response) res.render('signin', {errorMsg : "User not found"});
         else{
          const sessionId = uuidv4();
-         setUser(sessionId,response.email);
+         await setUser(sessionId,response.email);
          res.cookie("uid", sessionId);
          res.redirect('/');
         }

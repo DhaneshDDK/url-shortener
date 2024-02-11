@@ -12,12 +12,12 @@ exports.handleGenerateNewShortUrl = async (req,res)=>{
 
     if(response1) {
         return res.render('home',{
-            shortURL : `https://url-shortener-uvqp.onrender.com/url/${response1.shortId}`
+            shortURL : `http://localhost:2000/url/${response1.shortId}`
         })
     }
 
     else{
-        const shortId = shortid()
+        const shortId = shortid();
         const response = await URL.create({
             shortId: shortId,
             redirectUrl : req.body.url,
@@ -26,7 +26,7 @@ exports.handleGenerateNewShortUrl = async (req,res)=>{
         })
     
         return res.render('home',{
-            shortURL : `https://url-shortener-uvqp.onrender.com/url/${shortId}`
+            shortURL : `http://localhost:2000/url/${shortId}`
         })
     }
 
